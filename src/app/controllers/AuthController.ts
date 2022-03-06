@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken'
 
 class AuthController {
     async authenticate(req: Request, res: Response) {
+
         const repository = getRepository(User);
         const { email, password } = req.body
 
@@ -22,9 +23,13 @@ class AuthController {
             return res.sendStatus(401);
         }
 
+        //Cadastro do token
         const token = jwt.sign({
             id:user.id
-        }, 'secret',{expiresIn:'1d'})
+        }, 'secret',{
+            //Data para expirar
+            expiresIn:'1d'
+        })
 
         delete user.password;
         
